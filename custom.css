@@ -1,0 +1,76 @@
+.bg-custom {
+    background-color:rgb(119, 119, 119);
+    
+}
+
+.text-custom {
+    color:rgb(255, 255, 255)!important;
+}
+
+.flex-custom {
+    justify-content: space-between!important;
+    flex-direction: row!important;
+}
+
+.justify-content-custom {
+    justify-content: center;
+}
+
+.hero-img {
+    max-height: 30rem!important;
+    overflow: hidden;
+}
+
+.hero-img-2 {
+    margin-left: 33%;
+    overflow: hidden;
+}
+
+.img-custom {
+    max-width: 100%!important;
+    min-width: 100%!important;
+    margin-top: -10%;
+}
+
+.img-custom-2 {
+    padding-right: 0rem!important;
+    max-width: 100%!important;
+}
+
+.hero-text{
+    top: -50%!important;
+    bottom: 50%!important;
+    position: sticky!important;
+}
+
+.hero-text-2{
+    padding-left: 1%!important;
+    padding-top: 1%!important;
+}
+
+.hero-text h1{
+    color:rgb(255, 255, 255);
+}
+
+.first-word-hero{
+    color:rgb(158, 232, 255);
+    text-decoration: none;
+}
+
+.hero-text p {
+    color: rgb(158, 232, 255);
+    font-weight: 500;
+}
+
+.card-body-custom {
+    min-height: 20rem!important;
+}
+
+.btn-pos {
+    bottom: 4%!important;
+    position: absolute!important;
+}
+
+.card-text-custom {
+    padding-bottom: 2rem!important;
+} 
