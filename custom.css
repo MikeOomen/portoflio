@@ -17,8 +17,8 @@
 }
 
 .hero-img {
-    max-height: 30rem!important;
-    overflow: hidden;
+    max-height: 70vh!important;
+    overflow: hidden!important;
 }
 
 .hero-img-2 {
@@ -26,27 +26,30 @@
     overflow: hidden;
 }
 
-.img-custom {
-    max-width: 100%!important;
-    min-width: 100%!important;
-    margin-top: -10%;
+.bg-image {
+    background-position-y: -30vh;
+    background-position-x: center;
+    background-image: url('img/Default-Cube.png');
+    height: 400vh;
 }
 
 .img-custom-2 {
-    padding-right: 0rem!important;
-    max-width: 100%!important;
+    width: 120vh;
+}
+
+.link-custom{
+    text-decoration: none;
+    color: rgb(158, 232, 255);
 }
 
 .hero-text{
-    top: -50%!important;
-    bottom: 50%!important;
-    position: sticky!important;
+    padding-top: 30vh;
 }
 
 .hero-text-2{
     padding-left: 1%!important;
     padding-top: 1%!important;
-}
+} 
 
 .hero-text h1{
     color:rgb(255, 255, 255);
@@ -56,6 +59,7 @@
     color:rgb(158, 232, 255);
     text-decoration: none;
 }
+
 
 .hero-text p {
     color: rgb(158, 232, 255);
@@ -70,7 +74,6 @@
     bottom: 4%!important;
     position: absolute!important;
 }
-
 
 .card-text-custom {
     padding-bottom: 2rem!important;
