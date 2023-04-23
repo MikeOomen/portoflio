@@ -78,3 +78,14 @@
 .card-text-custom {
     padding-bottom: 2rem!important;
 } 
+body {
+    padding-bottom: 10vh;
+}
+
+footer {
+    background-color:#777777;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
