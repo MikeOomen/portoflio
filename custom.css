@@ -27,10 +27,11 @@
 }
 
 .bg-image {
-    background-position-y: -30vh;
+    background-position-y: center;
     background-position-x: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-image: url('img/BackGroundHero.png');
-    height: 400vh;
 }
 
 .img-custom-2 {
