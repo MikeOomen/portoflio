@@ -1,0 +1,42 @@
+{
+	"tags": null,
+	"rotation": [
+		0.7001460284339822,
+		-0.000001389676277335113,
+		0.000004753674255532607
+	],
+	"speed": 2,
+	"position": [
+		0.0004410217807162553,
+		208.11895751953125,
+		-247.01397705078125
+	],
+	"upVector": [
+		-0.00000564908350497717,
+		0.7647480964660645,
+		0.6443293690681458
+	],
+	"fov": 0.8,
+	"projectionPlaneTilt": 0,
+	"minZ": 1,
+	"maxZ": 15000,
+	"inertia": 0.9,
+	"mode": 0,
+	"layerMask": 268435455,
+	"fovMode": 0,
+	"cameraRigMode": 0,
+	"name": "New Target Camera",
+	"id": "6c25aa8c-4097-4663-9106-faed8e365bda",
+	"state": "",
+	"metadata": {
+		"script": {
+			"name": "src/scenes/scene/playerCamera.ts"
+		}
+	},
+	"uniqueId": 2088,
+	"type": "TargetCamera",
+	"parentId": "ed6c69fe-e3bc-4ebb-9d66-c6b702568b05",
+	"animations": [],
+	"ranges": [],
+	"isEnabled": false
+}
