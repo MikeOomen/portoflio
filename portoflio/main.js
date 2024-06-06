@@ -1,43 +1,50 @@
 import * as BABYLON from '@babylonjs/core';
+import "@babylonjs/loaders";
+import { Inspector } from '@babylonjs/inspector';
 
 const canvas = document.getElementById('rendererCanvas');
 
 const engine = new BABYLON.Engine(canvas);
 
-const CreateScene = function(){
+const CreateScene = async function() {
   const scene = new BABYLON.Scene(engine);
 
-  scene.createDefaultCameraOrLight(true, false, true);
+  try {
+      
+      await BABYLON.SceneLoader.AppendAsync("/Scenes/", "game.babylon", scene);
+      
+      scene.executeWhenReady(function() {
+          if (scene.cameras.length > 0) {
+              scene.activeCamera = scene.cameras[0]; 
+          } else {
+              console.error("No camera defined in the scene.");
+          }
 
-  const box = new BABYLON.MeshBuilder.CreateBox('BoxTest', {
-    size: 1,
-    width: 1,
-    height: 1,
-    depth: 1,
-    faceColors: [
-      new BABYLON.Color4(1,0,0,1),
-      BABYLON.Color3.Green(),
-      new BABYLON.Color4(0,0,1,1),
-      new BABYLON.Color4(0.5,0,0.5,1),
-      new BABYLON.Color4(0.5,0.5,0,1),
-      new BABYLON.Color4(0,0.5,0.5,1)
-    ]
-  });
 
-  const ground = new BABYLON.MeshBuilder.CreateGround('Ground', {
-    width: 10,
-    height: 10
-  })
+
+          console.log("Cameras in the scene:", scene.cameras);
+      });
+  } catch (error) {
+      console.error("Error loading the scene:", error);
+  }
 
   return scene;
-}
+};
 
-const scene = CreateScene();
+const scene = await CreateScene();
+
+scene.registerBeforeRender(function() {
+
+});
 
 engine.runRenderLoop(function() {
   scene.render();
-})
+});
 
 window.addEventListener('resize', function() {
   engine.resize();
-})
+});
+
+
+
+Inspector.Show(scene, {});
