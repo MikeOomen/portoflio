@@ -13,52 +13,55 @@ const engine = new BABYLON.Engine(canvas);
 const CreateScene = function() {
   const scene = new BABYLON.Scene(engine);
 
-  // Create a promise that will be resolved once AppendAsync is done
   const appendPromise = new Promise((resolve, reject) => {
-    BABYLON.SceneLoader.AppendAsync("/Scenes/", "game.babylon", scene).then(() => {
+    BABYLON.SceneLoader.Append("/Scenes/", "game.babylon", scene, function() {
       scene.executeWhenReady(function() {
         if (scene.cameras.length > 0) {
           scene.activeCamera = scene.cameras[0];
         } else {
           console.error("No camera defined in the scene.");
+          reject("No camera defined in the scene.");
         }
         console.log("Cameras in the scene:", scene.cameras);
-
-        resolve(); // Resolve the promise when scene is ready
+        resolve(scene);
       });
-    }).catch(reject);
+    }, null, function(scene, message, exception) {
+      console.error("Error loading scene:", message, exception);
+      reject(message);
+    });
   });
 
-  appendPromise.then(() => {
-    let gravityVector = new BABYLON.Vector3(0, -9.81, 0);
-    let physicsPlugin = new BABYLON.CannonJSPlugin();
-    scene.enablePhysics(gravityVector, physicsPlugin);
+  return appendPromise;
+};
 
-    const box = scene.getMeshById("BoxTest");
+// Now CreateScene returns a promise
+CreateScene().then(scene => {
+  let gravityVector = new BABYLON.Vector3(0, -9.81, 0);
+  let physicsPlugin = new BABYLON.CannonJSPlugin();
+  scene.enablePhysics(gravityVector, physicsPlugin);
 
+  const box = scene.getMeshById("BoxTest");
+
+  if (box) {
     box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.9 }, scene);
 
     const player = new Player(box);
 
     box.addBehavior(player);
+  } else {
+    console.error("BoxTest mesh not found in the scene.");
+  }
+
+  // Register the render loop after everything is set up
+  engine.runRenderLoop(() => {
+    scene.render();
   });
 
-  return scene;
-};
+  window.addEventListener('resize', () => {
+    engine.resize();
+  });
 
-// Now CreateScene is synchronous
-const scene = CreateScene();
-
-scene.registerBeforeRender(function() {
-
+  Inspector.Show(scene, {});
+}).catch(error => {
+  console.error("Error in creating scene:", error);
 });
-
-engine.runRenderLoop(function() {
-  scene.render();
-});
-
-window.addEventListener('resize', function() {
-  engine.resize();
-});
-
-Inspector.Show(scene, {});
