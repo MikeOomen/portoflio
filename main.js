@@ -14,7 +14,7 @@ const CreateScene = function() {
   const scene = new BABYLON.Scene(engine);
 
   const appendPromise = new Promise((resolve, reject) => {
-    BABYLON.SceneLoader.Append("./Scenes/", "game.babylon", scene, function() {
+    BABYLON.SceneLoader.Append("./scenes/", "game.babylon", scene, function() {
       scene.executeWhenReady(function() {
         if (scene.cameras.length > 0) {
           scene.activeCamera = scene.cameras[0];
