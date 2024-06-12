@@ -10,36 +10,44 @@ window.CANNON = cannon;
 
 const engine = new BABYLON.Engine(canvas);
 
-const CreateScene = async function() {
+const CreateScene = function() {
   const scene = new BABYLON.Scene(engine);
 
-  await BABYLON.SceneLoader.AppendAsync("/Scenes/", "game.babylon", scene);
-      
-  scene.executeWhenReady(function() {
-      if (scene.cameras.length > 0) {
-          scene.activeCamera = scene.cameras[0]; 
-      } else {
+  // Create a promise that will be resolved once AppendAsync is done
+  const appendPromise = new Promise((resolve, reject) => {
+    BABYLON.SceneLoader.AppendAsync("/Scenes/", "game.babylon", scene).then(() => {
+      scene.executeWhenReady(function() {
+        if (scene.cameras.length > 0) {
+          scene.activeCamera = scene.cameras[0];
+        } else {
           console.error("No camera defined in the scene.");
-      }
-      console.log("Cameras in the scene:", scene.cameras);
+        }
+        console.log("Cameras in the scene:", scene.cameras);
+
+        resolve(); // Resolve the promise when scene is ready
+      });
+    }).catch(reject);
   });
 
-  let gravityVector = new BABYLON.Vector3(0,-9.81, 0);
-  let physicsPlugin = new BABYLON.CannonJSPlugin();
-  scene.enablePhysics(gravityVector, physicsPlugin);
+  appendPromise.then(() => {
+    let gravityVector = new BABYLON.Vector3(0, -9.81, 0);
+    let physicsPlugin = new BABYLON.CannonJSPlugin();
+    scene.enablePhysics(gravityVector, physicsPlugin);
 
-  const box = scene.getMeshById("BoxTest");
+    const box = scene.getMeshById("BoxTest");
 
-  box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.9 }, scene);
+    box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.9 }, scene);
 
-  const player = new Player(box);
+    const player = new Player(box);
 
-  box.addBehavior(player);
+    box.addBehavior(player);
+  });
 
   return scene;
 };
 
-const scene = await CreateScene();
+// Now CreateScene is synchronous
+const scene = CreateScene();
 
 scene.registerBeforeRender(function() {
 
