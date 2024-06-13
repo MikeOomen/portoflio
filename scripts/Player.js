@@ -25,10 +25,10 @@ export class Player {
 
         this._beforeRenderObserver = this._scene.onBeforeRenderObservable.add(() => {
             let deltaTime = Time.DeltaTime();
-            if (this.keys["w"]) this.gameObject.position.z -= this.speed * deltaTime;
-            if (this.keys["s"]) this.gameObject.position.z += this.speed * deltaTime;
-            if (this.keys["a"]) this.gameObject.position.x -= this.speed * deltaTime;
-            if (this.keys["d"]) this.gameObject.position.x += this.speed * deltaTime;
+            if (this.keys["w"]) this.gameObject.position.x += this.speed * deltaTime;
+            if (this.keys["s"]) this.gameObject.position.x -= this.speed * deltaTime;
+            if (this.keys["a"]) this.gameObject.position.z += this.speed * deltaTime;
+            if (this.keys["d"]) this.gameObject.position.z -= this.speed * deltaTime;
         });
     }
 

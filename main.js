@@ -41,15 +41,30 @@ CreateScene().then(scene => {
   scene.enablePhysics(gravityVector, physicsPlugin);
 
   const box = scene.getMeshById("BoxTest");
+  const terrian = scene.getMeshById("Ground");
 
   if (box) {
-    box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 1, restitution: 0.9 }, scene);
+    box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene);
 
     const player = new Player(box);
 
     box.addBehavior(player);
   } else {
     console.error("BoxTest mesh not found in the scene.");
+  }
+
+  if (terrian){
+    terrian.physicsImpostor = new BABYLON.PhysicsImpostor(terrian, BABYLON.PhysicsImpostor.BoxImpostor, {enablePhysics: false}, scene);
+  }
+
+  for (let index = 0; index < 500; index++) {
+    const newBox = BABYLON.CreateBox("box" + index);
+
+    newBox.position = new BABYLON.Vector3(
+      Math.random() * (100 - -100) + -100, Math.random() * (10 - 1) + 1, Math.random() * (100 - -100)
+    )
+    newBox.physicsImpostor = new BABYLON.PhysicsImpostor(newBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene); 
+    
   }
 
   // Register the render loop after everything is set up
@@ -65,3 +80,5 @@ CreateScene().then(scene => {
 }).catch(error => {
   console.error("Error in creating scene:", error);
 });
+
+
