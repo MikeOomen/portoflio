@@ -3,6 +3,7 @@ import "@babylonjs/loaders";
 import { Inspector } from '@babylonjs/inspector';
 import { Player } from './scripts/Player';
 import * as cannon from "cannon";
+import { CameraFollow } from './scripts/CameraFollow';
 
 const canvas = document.getElementById('rendererCanvas');
 
@@ -18,6 +19,8 @@ const CreateScene = function() {
       scene.executeWhenReady(function() {
         if (scene.cameras.length > 0) {
           scene.activeCamera = scene.cameras[0];
+
+          scene.activeCamera.parent = scene.getMeshByName("CamHolder");
         } else {
           console.error("No camera defined in the scene.");
           reject("No camera defined in the scene.");
@@ -42,9 +45,10 @@ CreateScene().then(scene => {
 
   const box = scene.getMeshById("BoxTest");
   const terrian = scene.getMeshById("Ground");
-
+  const camHolder = scene.getMeshByName("CamHolder");
+  
   if (box) {
-    box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene);
+//    box.physicsImpostor = new BABYLON.PhysicsImpostor(box, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene);
 
     const player = new Player(box);
 
@@ -57,15 +61,21 @@ CreateScene().then(scene => {
     terrian.physicsImpostor = new BABYLON.PhysicsImpostor(terrian, BABYLON.PhysicsImpostor.BoxImpostor, {enablePhysics: false}, scene);
   }
 
-  for (let index = 0; index < 500; index++) {
-    const newBox = BABYLON.CreateBox("box" + index);
-
-    newBox.position = new BABYLON.Vector3(
-      Math.random() * (100 - -100) + -100, Math.random() * (10 - 1) + 1, Math.random() * (100 - -100)
-    )
-    newBox.physicsImpostor = new BABYLON.PhysicsImpostor(newBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene); 
-    
+  if (camHolder) {
+    camHolder.setEnabled(false);
+    const camFollow = new CameraFollow(camHolder);
+    camHolder.addBehavior(camFollow);
   }
+
+  // for (let index = 0; index < 500; index++) {
+  //   const newBox = BABYLON.CreateBox("box" + index);
+
+  //   newBox.position = new BABYLON.Vector3(
+  //     Math.random() * (100 - -100) + -100, Math.random() * (10 - 1) + 1, Math.random() * (100 - -100)
+  //   )
+  //   newBox.physicsImpostor = new BABYLON.PhysicsImpostor(newBox, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 1, restitution: 0.9 }, scene); 
+    
+  //}
 
   // Register the render loop after everything is set up
   engine.runRenderLoop(() => {
